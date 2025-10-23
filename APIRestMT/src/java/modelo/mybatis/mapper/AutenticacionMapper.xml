@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="autenticacion" >
+
+    <select id = "administrador" parameterType="map" resultType="pojo.Profesor" >
+        SELECT idProfesor, nombre, apellidoPaterno, apellidoMaterno, noPersonal, fechaNacimiento, fechaContratacion, p.idRol, rol
+        FROM profesor p
+        INNER JOIN rol r ON r.idRol = p.idRol
+        WHERE noPersonal = #{noPersonal} AND password=#{password}
+    </select>
+
+</mapper>
+

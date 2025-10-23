@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clienteescritorio.FXML_InicioSesionController">
+   <children>
+      <Label layoutX="412.0" layoutY="53.0" text="Bienvenido(a)" textAlignment="CENTER" underline="true">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfCorreo" layoutX="378.0" layoutY="182.0" prefHeight="25.0" prefWidth="200.0" promptText="NP00" />
+      <PasswordField fx:id="tpContrasena" layoutX="378.0" layoutY="237.0" prefHeight="25.0" prefWidth="200.0" promptText="Contraseña" />
+      <Button layoutX="452.0" layoutY="289.0" mnemonicParsing="false" onAction="#clicIniciarSesion" style="-fx-background-color: blue;" text="Ingresar" textFill="WHITE" />
+      <Pane layoutX="4.0" layoutY="5.0" prefHeight="390.0" prefWidth="318.0" style="-fx-background-color: green;">
+         <children>
+            <ImageView fitHeight="278.0" fitWidth="301.0" layoutX="9.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/uv.png" />
+               </image>
+            </ImageView>
+         </children></Pane>
+      <Label layoutX="377.0" layoutY="102.0" text="Para iniciar sesion ingresa tu numero &#10;de personal y contraseña" textAlignment="CENTER" />
+      <Label layoutX="377.0" layoutY="220.0" text="Contraseña" />
+      <Label layoutX="377.0" layoutY="165.0" text="Numero de personal" />
+   </children>
+</AnchorPane>

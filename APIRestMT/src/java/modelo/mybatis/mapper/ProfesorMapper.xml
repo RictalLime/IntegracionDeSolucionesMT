@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="profesor" >
+    
+    <select id="obtener_todos" resultType="pojo.Profesor">
+        SELECT idProfesor, nombre, apellidoPaterno, apellidoMaterno, noPersonal, fechaNacimiento, fechaContratacion, profesor.idRol, rol
+        FROM profesor
+        INNER JOIN rol ON rol.idRol = profesor.idRol
+    </select>
+    
+    <insert id="registrar" parameterType="pojo.Profesor">
+        INSERT INTO profesor (nombre, apellidoPaterno, apellidoMaterno, noPersonal, password, fechaNacimiento, fechaContratacion, idRol)
+        VALUES(#{nombre},#{apellidoPaterno},#{apellidoMaterno}, #{noPersonal}, #{password}, #{fechaNacimiento}, #{fechaContracion}, #{idRol})
+    </insert>
+    
+    <update id="editar" parameterType="pojo.Profesor">
+        UPDATE profesor
+        SET nombre=#{nombre}, apellidoPaterno=#{apellidoPaterno}, apellidoMaterno=#{apellidoMaterno}, fechaNacimiento=#{fechaNacimiento}, fechaContratacion=#{fechaContratacion}, 
+        idRol=#{idRol} WHERE idProfesor=#{idProfesor}
+    </update>
+    
+    <delete id="eliminar" parameterType="int">
+        DELETE FROM profesor WHERE idProfesor = #{idProfesor}
+    </delete>
+
+</mapper>
+
