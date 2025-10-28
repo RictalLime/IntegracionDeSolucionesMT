@@ -15,7 +15,7 @@ import pojo.Profesor;
  *
  * @author Tron7
  */
-public class profesorImp {
+public class ProfesorImp {
     
     public static List<Profesor> obtenerProfesor(){
         List<Profesor> profesores = null;

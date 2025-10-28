@@ -77,7 +77,7 @@ public class Profesor {
         return rol;
     }
 
-    public void setIdProfesor(int idProfesor) {
+    public void setIdProfesor(Integer idProfesor) {
         this.idProfesor = idProfesor;
     }
 

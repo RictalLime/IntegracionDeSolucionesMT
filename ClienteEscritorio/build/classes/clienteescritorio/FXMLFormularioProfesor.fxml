@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clienteescritorio.FXMLFormularioProfesorController">
+   <children>
+      <Pane prefHeight="68.0" prefWidth="600.0" style="-fx-background-color: green;" />
+      <TextField fx:id="tfNumPersonal" layoutX="36.0" layoutY="102.0" promptText="No. Personal: NP00" />
+      <Label layoutX="36.0" layoutY="85.0" text="No. de Personal" />
+      <TextField fx:id="tfNombre" layoutX="36.0" layoutY="161.0" promptText="Nombre" />
+      <Label layoutX="36.0" layoutY="144.0" text="Nombre" />
+      <Label layoutX="237.0" layoutY="144.0" text="Apellido paterno" />
+      <Label layoutX="434.0" layoutY="144.0" text="Apellido materno" />
+      <TextField fx:id="tfApPaterno" layoutX="237.0" layoutY="161.0" promptText="Apellido Paterno" />
+      <TextField fx:id="tfApMaterno" layoutX="434.0" layoutY="161.0" promptText="Apellido Materno" />
+      <DatePicker fx:id="dpFechaNacimiento" layoutX="36.0" layoutY="227.0" promptText="dd/mm/yyyy" />
+      <Label layoutX="36.0" layoutY="210.0" text="Fecha de Nacimiento" />
+      <Label layoutX="237.0" layoutY="210.0" text="Fecha de Contratacion" />
+      <DatePicker fx:id="dpFechaContratacion" layoutX="237.0" layoutY="227.0" promptText="dd/mm/yyyy" />
+      <PasswordField fx:id="pfContrasena" layoutX="36.0" layoutY="300.0" promptText="***********" />
+      <Label layoutX="36.0" layoutY="283.0" text="Contraseña de acceso" />
+      <ComboBox fx:id="cbRol" layoutX="237.0" layoutY="300.0" prefWidth="150.0" />
+      <Label layoutX="237.0" layoutY="283.0" text="Rol en el sistema" />
+      <Button layoutX="428.0" layoutY="355.0" mnemonicParsing="false" onAction="#clicCancelar" text="Cancelar" />
+      <Button layoutX="509.0" layoutY="355.0" mnemonicParsing="false" onAction="#clicGuardar" text="Guardar" />
+   </children>
+</AnchorPane>

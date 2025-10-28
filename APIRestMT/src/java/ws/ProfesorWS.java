@@ -5,7 +5,7 @@
 package ws;
 
 import com.google.gson.Gson;
-import dominio.profesorImp;
+import dominio.ProfesorImp;
 import dto.Respuesta;
 import java.util.List;
 import javax.ws.rs.BadRequestException;
@@ -30,7 +30,7 @@ public class ProfesorWS {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Profesor> obtenerProfesor(){
-        return profesorImp.obtenerProfesor();
+        return ProfesorImp.obtenerProfesor();
     }
     
     @Path("registrar")
@@ -41,7 +41,7 @@ public class ProfesorWS {
         Gson gson = new Gson();
         try{
             Profesor profesor = gson.fromJson(json, Profesor.class);
-            return profesorImp.registrarProfesor(profesor);
+            return ProfesorImp.registrarProfesor(profesor);
         }catch (Exception e){
             throw new BadRequestException(e.getMessage());
         }
@@ -55,7 +55,7 @@ public class ProfesorWS {
         Gson gson = new Gson();
         try {
             Profesor profesor = gson.fromJson(json, Profesor.class);
-            return profesorImp.editarProfesor(profesor);
+            return ProfesorImp.editarProfesor(profesor);
         }catch (Exception e){
             throw new BadRequestException(e.getMessage());
         }
@@ -67,7 +67,7 @@ public class ProfesorWS {
     //@Consumes(MediaType.APPLICATION_JSON)
     public Respuesta eliminar(@PathParam("id") int idProfesor){
         try {
-            return profesorImp.eliminarProfesor(idProfesor);
+            return ProfesorImp.eliminarProfesor(idProfesor);
         }catch (Exception e){
             throw new BadRequestException(e.getMessage());
         }

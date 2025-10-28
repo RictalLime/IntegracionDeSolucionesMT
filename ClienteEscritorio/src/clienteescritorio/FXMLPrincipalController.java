@@ -68,6 +68,7 @@ public class FXMLPrincipalController implements Initializable {
             Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
     @FXML
     private void clickCerarsesion(ActionEvent event) {
         try {
@@ -89,5 +90,20 @@ public class FXMLPrincipalController implements Initializable {
             alerta.setContentText("No se pudo regresar al inicio de sesión.");
             alerta.showAndWait();
         }
-    } 
+    }
+    
+    @FXML
+    private void clicFormProfesores(ActionEvent event) {
+        try {
+            Parent vistaFormularioProfesores = FXMLLoader.load(getClass().getResource("FXMLFormularioProfesor.fxml"));
+            Scene escenaFormularioProfesores = new Scene (vistaFormularioProfesores);
+            
+            Stage stageFormProfesores = new Stage();
+            stageFormProfesores.setScene(escenaFormularioProfesores);
+            stageFormProfesores.initModality(Modality.APPLICATION_MODAL);
+            stageFormProfesores.showAndWait();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
