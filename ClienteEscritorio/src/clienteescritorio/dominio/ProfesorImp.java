@@ -5,6 +5,7 @@
 package clienteescritorio.dominio;
 
 import clienteescritorio.conexion.ConexionAPI;
+import clienteescritorio.dto.Respuesta;
 import clienteescritorio.pojo.Profesor;
 import clienteescritorio.pojo.RespuestaHTTP;
 import clienteescritorio.utilidad.Constantes;
@@ -43,6 +44,33 @@ public class ProfesorImp {
                     break;
                 default:
                     respuesta.put("Mensaje", "Lo sentimos hay problemas para"+"verificar sus credenciales en este momento, por favor intentelo mas tarde.");
+            }
+        }
+        return respuesta;
+    }
+    
+    public static Respuesta registrar(Profesor profesor){
+        Respuesta respuesta = new Respuesta();
+        String URL = Constantes.URL_WS + "profesor/registrar";
+        Gson gson = new Gson();
+        String parametrosJSON = gson.toJson(profesor);
+        RespuestaHTTP respuestaAPI = ConexionAPI.peticionBody(URL,Constantes.PETICION_POST, parametrosJSON, Constantes.APPLICATION_JSON);
+        if(respuestaAPI.getCodigo() == HttpURLConnection.HTTP_OK){
+            respuesta = gson.fromJson(respuestaAPI.getContenido(),Respuesta.class);
+        }else{
+            respuesta.setError(true);
+            switch (respuestaAPI.getCodigo()) {
+                case Constantes.ERROR_MALFORMED_URL:
+                    respuesta.setMensaje(Constantes.MSJ_ERROR_URL);
+                    break;
+                case Constantes.ERROR_PETICION:
+                    respuesta.setMensaje(Constantes.MSJ_ERROR_PETICION);
+                    break;
+                case HttpURLConnection.HTTP_BAD_REQUEST:
+                    respuesta.setMensaje("Campos en formato incorrecto, " + "+porfavor verifica toda la informacion enviada.");
+                    break;
+                default:
+                    respuesta.setMensaje("Lo sentimos hay problemas para " + "obtener la información en este momento, por favor intentelo mas tarde.");
             }
         }
         return respuesta;

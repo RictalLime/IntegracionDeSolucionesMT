@@ -16,4 +16,19 @@ public class Constantes {
     public static final String MSJ_ERROR_URL = "Lo sentimos su solicitud no puede ser realizada en este momento, por favor intente mas tarde.";
     public static final String MSJ_ERROR_PETICION = "Lo sentimos teneos problemas de conexion en este momento, por favor intente mas tarde.";
     
+    //LLAVES Hash
+    public static final String KEY_ERROR = "error";
+    public static final String KEY_MENSAJE = "mensaje";
+    public static final String KEY_LISTA = "lista";
+    public static final String KEY_OBJECT = "objeto";
+    
+    //PETICION
+    public static final String PETICION_GET = "GET";
+    public static final String PETICION_POST = "POST";
+    public static final String PETICION_PUT = "PUT";
+    public static final String PETICION_DELETE = "DELETE";
+    
+    //CONTENT TYPE
+    public static final String APPLICATION_JSON = "application/json";
+    public static final String APPLICATION_FORM = "application/x-www-form-urlencoded";
 }
