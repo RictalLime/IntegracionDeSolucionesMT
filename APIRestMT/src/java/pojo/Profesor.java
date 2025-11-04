@@ -21,7 +21,7 @@ public class Profesor {
     private int  idRol;
     private String rol;
 
-    public Profesor(Integer idProfesor, String nombre, String apellidoPaterno, String apellidoMaterno, String noPersonal, String password, String fechaNacimiento, String fechaContratcion, int idRol, String rol) {
+    public Profesor(Integer idProfesor, String nombre, String apellidoPaterno, String apellidoMaterno, String noPersonal, String password, String fechaNacimiento, String fechaContratacion, int idRol, String rol) {
         this.idProfesor = idProfesor;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -65,7 +65,7 @@ public class Profesor {
         return fechaNacimiento;
     }
     
-    public String getFechaContracion() {
+    public String getFechaContratacion() {
         return fechaContratacion;
     }
 

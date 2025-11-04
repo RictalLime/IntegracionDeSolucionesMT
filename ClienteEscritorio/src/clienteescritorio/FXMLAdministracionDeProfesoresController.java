@@ -5,6 +5,7 @@
 package clienteescritorio;
 
 import clienteescritorio.dominio.ProfesorImp;
+import clienteescritorio.interfaz.INotificador;
 import clienteescritorio.pojo.Profesor;
 import clienteescritorio.utilidad.Utilidades;
 import java.io.IOException;
@@ -35,7 +36,7 @@ import javafx.stage.Stage;
  *
  * @author Tron7
  */
-public class FXMLAdministracionDeProfesoresController implements Initializable {
+public class FXMLAdministracionDeProfesoresController implements Initializable, INotificador {
     
     @FXML
     private TextField tfBusqueda;
@@ -49,6 +50,8 @@ public class FXMLAdministracionDeProfesoresController implements Initializable {
     private TableColumn colApMaterno;
     @FXML
     private TableColumn colApPaterno;
+    @FXML
+    private TableColumn colFechaNacimiento;
     @FXML
     private TableColumn colFechaContratacion;
     @FXML
@@ -68,6 +71,7 @@ public class FXMLAdministracionDeProfesoresController implements Initializable {
         colNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
         colApPaterno.setCellValueFactory(new PropertyValueFactory("apellidoPaterno"));
         colApMaterno.setCellValueFactory(new PropertyValueFactory("apellidoMaterno"));
+        colFechaNacimiento.setCellValueFactory(new PropertyValueFactory("fechaNacimiento"));
         colFechaContratacion.setCellValueFactory(new PropertyValueFactory("fechaContratacion"));
         colRol.setCellValueFactory(new PropertyValueFactory("rol"));
     }
@@ -80,6 +84,7 @@ public class FXMLAdministracionDeProfesoresController implements Initializable {
             profesores = FXCollections.observableArrayList();
             profesores.addAll(ProfesoresAPI);
             tvProfesores.setItems(profesores);
+            //tvProfesores.refresh();
         }else{
             Utilidades.mostrarAlertaSimple("Error al cargar", ""+respuesta.get("Mensaje"), Alert.AlertType.ERROR);
         }
@@ -87,12 +92,17 @@ public class FXMLAdministracionDeProfesoresController implements Initializable {
     
     @FXML
     private void clicNuevo(ActionEvent event) {
-        irFormulario();
+        irFormulario(null);
     }
 
     @FXML
     private void clicEditar(ActionEvent event) {
-        
+        Profesor profesor = tvProfesores.getSelectionModel().getSelectedItem();
+        if(profesor != null){
+            irFormulario(profesor);
+        }else{
+            Utilidades.mostrarAlertaSimple("Selecciona un Profesor", "Para editar la informacion de un profesor, debes seleccionarlo primero", Alert.AlertType.WARNING);
+        }
     }
 
     @FXML
@@ -100,11 +110,13 @@ public class FXMLAdministracionDeProfesoresController implements Initializable {
         
     }
     
-    private void irFormulario(){
+    private void irFormulario(Profesor profesor){
         
         try {
             FXMLLoader cargar = new FXMLLoader(getClass().getResource("FXMLFormularioProfesor.fxml"));
             Parent vista = cargar.load();
+            FXMLFormularioProfesorController controlador = cargar.getController();
+            controlador.inicializarDatos(profesor, this);
             Scene escena = new Scene(vista);
             Stage escenario = new Stage();
             escenario.setScene(escena);
@@ -114,5 +126,11 @@ public class FXMLAdministracionDeProfesoresController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(FXMLAdministracionDeProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public void notificarOperacionExitosa(String operacion, String nombre) {
+        System.out.print("Operacion: "+operacion+", nombre profesor: "+nombre);
+        cargarInformacionProfesores();
     }
 }

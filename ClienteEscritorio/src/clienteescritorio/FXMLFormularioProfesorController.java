@@ -7,11 +7,13 @@ package clienteescritorio;
 import clienteescritorio.dominio.CatalogoImp;
 import clienteescritorio.dominio.ProfesorImp;
 import clienteescritorio.dto.Respuesta;
+import clienteescritorio.interfaz.INotificador;
 import clienteescritorio.pojo.Profesor;
 import clienteescritorio.pojo.Rol;
 import clienteescritorio.utilidad.Constantes;
 import clienteescritorio.utilidad.Utilidades;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -50,6 +52,9 @@ public class FXMLFormularioProfesorController implements Initializable {
     private PasswordField pfContrasena;
     @FXML
     private ComboBox<Rol> cbRol;
+    
+    private Profesor profesorEdicion;
+    private INotificador observador;
     
     private ObservableList<Rol> roles;
     /**
@@ -100,7 +105,12 @@ public class FXMLFormularioProfesorController implements Initializable {
             profesor.setFechaContratacion(dpFechaContratacion.getValue().toString());
             Rol rolSeleccionado = cbRol.getSelectionModel().getSelectedItem();
             profesor.setIdRol(rolSeleccionado.getIdRol());
-            registrarProfesor(profesor);
+            if(profesorEdicion == null){
+                registrarProfesor(profesor);
+            }else{
+                editarProfesor(profesor);
+            }
+            //registrarProfesor(profesor);
         }
     }
     
@@ -108,10 +118,48 @@ public class FXMLFormularioProfesorController implements Initializable {
         Respuesta respuesta = ProfesorImp.registrar(profesor);
         if(!respuesta.isError()){
             Utilidades.mostrarAlertaSimple("Profesor registrado", respuesta.getMensaje(), Alert.AlertType.INFORMATION);
+            observador.notificarOperacionExitosa("registro", profesor.getNombre());
             cerrarVentana();
 
         }else {
             Utilidades.mostrarAlertaSimple("Error al registrar", respuesta.getMensaje(), Alert.AlertType.ERROR);
         }
+    }
+    
+    public void inicializarDatos(Profesor profesorEdicion, INotificador observador){
+        this.profesorEdicion = profesorEdicion;
+        this.observador = observador;
+        if(profesorEdicion != null){
+            tfNumPersonal.setText(profesorEdicion.getNoPersonal());
+            tfNombre.setText(profesorEdicion.getNombre());
+            tfApPaterno.setText(profesorEdicion.getApellidoPaterno());
+            tfApMaterno.setText(profesorEdicion.getApellidoMaterno());
+            dpFechaNacimiento.setValue(LocalDate.parse(profesorEdicion.getFechaNacimiento()));
+            dpFechaContratacion.setValue(LocalDate.parse(profesorEdicion.getFechaContratacion()));
+            int posicionRol = obtenerPosicionRol(profesorEdicion.getIdRol());
+            cbRol.getSelectionModel().select(posicionRol);
+            tfNumPersonal.setEditable(false);
+            pfContrasena.setVisible(false);
+        }
+    }
+    
+    private void editarProfesor(Profesor profesor){
+        profesor.setIdProfesor(profesorEdicion.getIdProfesor());
+        Respuesta respuesta = ProfesorImp.editar(profesor);
+        if(!respuesta.isError()){
+            Utilidades.mostrarAlertaSimple("Profesor registrado", respuesta.getMensaje(), Alert.AlertType.INFORMATION);
+            cerrarVentana();
+
+        }else {
+            Utilidades.mostrarAlertaSimple("Error al registrar", respuesta.getMensaje(), Alert.AlertType.ERROR);
+        }
+    }
+    
+    private int obtenerPosicionRol(int idRol){
+        for (int i=0; i<roles.size(); i++){
+            if(roles.get(i).getIdRol() == idRol)
+                return i;
+        }
+        return -1;
     }
 }

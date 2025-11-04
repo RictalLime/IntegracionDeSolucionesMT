@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <insert id="registrar" parameterType="pojo.Profesor">
         INSERT INTO profesor (nombre, apellidoPaterno, apellidoMaterno, noPersonal, password, fechaNacimiento, fechaContratacion, idRol)
-        VALUES(#{nombre},#{apellidoPaterno},#{apellidoMaterno}, #{noPersonal}, #{password}, #{fechaNacimiento}, #{fechaContracion}, #{idRol})
+        VALUES(#{nombre},#{apellidoPaterno},#{apellidoMaterno}, #{noPersonal}, #{password}, #{fechaNacimiento}, #{fechaContratacion}, #{idRol})
     </insert>
     
     <update id="editar" parameterType="pojo.Profesor">

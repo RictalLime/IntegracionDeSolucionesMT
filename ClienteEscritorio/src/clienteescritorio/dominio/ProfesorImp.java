@@ -70,7 +70,34 @@ public class ProfesorImp {
                     respuesta.setMensaje("Campos en formato incorrecto, " + "+porfavor verifica toda la informacion enviada.");
                     break;
                 default:
-                    respuesta.setMensaje("Lo sentimos hay problemas para " + "obtener la información en este momento, por favor intentelo mas tarde.");
+                    respuesta.setMensaje("Lo sentimos hay problemas para " + "registrar la información en este momento, por favor intentelo mas tarde.");
+            }
+        }
+        return respuesta;
+    }
+    
+    public static Respuesta editar(Profesor profesor){
+        Respuesta respuesta = new Respuesta();
+        String URL = Constantes.URL_WS + "profesor/editar";
+        Gson gson = new Gson();
+        String parametrosJSON = gson.toJson(profesor);
+        RespuestaHTTP respuestaAPI = ConexionAPI.peticionBody(URL, "PUT", parametrosJSON, Constantes.APPLICATION_JSON);
+        if(respuestaAPI.getCodigo() == HttpURLConnection.HTTP_OK){
+            respuesta = gson.fromJson(respuestaAPI.getContenido(), Respuesta.class);
+        }else{
+            respuesta.setError(true);
+            switch (respuestaAPI.getCodigo()) {
+                case Constantes.ERROR_MALFORMED_URL:
+                    respuesta.setMensaje(Constantes.MSJ_ERROR_URL);
+                    break;
+                case Constantes.ERROR_PETICION:
+                    respuesta.setMensaje(Constantes.MSJ_ERROR_PETICION);
+                    break;
+                case HttpURLConnection.HTTP_BAD_REQUEST:
+                    respuesta.setMensaje("Campos en formato incorrecto, " + "+porfavor verifica toda la informacion enviada.");
+                    break;
+                default:
+                    respuesta.setMensaje("Lo sentimos hay problemas para " + "editar la información en este momento, por favor intentelo mas tarde.");
             }
         }
         return respuesta;
