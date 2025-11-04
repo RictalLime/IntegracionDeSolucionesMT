@@ -68,4 +68,26 @@ public class ConexionAPI {
         }
         return respuesta;
     }
+    
+    public static RespuestaHTTP peticionSinBody(String URL, String metodoHTTP){
+        RespuestaHTTP respuesta = new RespuestaHTTP();
+        try{
+            URL urlWS = new URL(URL);
+            HttpURLConnection conexionHTTP = (HttpURLConnection) urlWS.openConnection();
+            conexionHTTP.setRequestMethod(metodoHTTP);
+            int codigo = conexionHTTP.getResponseCode();
+            if(codigo == HttpURLConnection.HTTP_OK){
+                respuesta.setContenido(Utilidades.streamToString(conexionHTTP.getInputStream()));
+                
+            }
+            respuesta.setCodigo(codigo);
+        }catch (MalformedURLException e){
+            respuesta.setCodigo(Constantes.ERROR_MALFORMED_URL);
+            respuesta.setContenido(e.getMessage());
+        }catch (IOException ex){
+            respuesta.setCodigo(Constantes.ERROR_PETICION);
+            respuesta.setContenido(ex.getMessage());
+        }
+        return respuesta;
+    }
 }

@@ -94,8 +94,8 @@ public class ProfesorImp {
                 int filasAfectadas = conexionBD.delete("profesor.eliminar", idProfesor);
                 conexionBD.commit();
                 if(filasAfectadas > 0){
-                    respuesta.setError(true);
-                    respuesta.setMensaje("Informacion del profesor "+idProfesor+", actualizada correctamente");
+                    respuesta.setError(false);
+                    respuesta.setMensaje("Informacion del profesor "+idProfesor+", eliminar correctamente");
                 }else{
                     respuesta.setMensaje("Lo sentimos :( la informacion no pudo ser actualizada");
                     conexionBD.close();
@@ -105,6 +105,33 @@ public class ProfesorImp {
                 respuesta.setMensaje(e.getMessage());
             }
             conexionBD.close();
+        }else{
+            respuesta.setMensaje(Constantes.MSJ_ERROR_BD);
+        }
+        return respuesta;
+    }
+    
+    public static Respuesta guardarFoto(int idProfesor, byte[] foto){
+        Respuesta respuesta = new Respuesta();
+        respuesta.setError(true);
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        if(conexionBD != null){
+            try{
+                Profesor profesor = new Profesor();
+                profesor.setIdProfesor(idProfesor);
+                profesor.setFoto(foto);
+                int filasAfectadas = conexionBD.update("profesor.guardar-foto", profesor);
+                conexionBD.commit();
+                if(filasAfectadas > 0){
+                    respuesta.setError(false);
+                    respuesta.setMensaje("La fotografia del profesor(a) ha sido agregada");
+                }else{
+                    respuesta.setMensaje("Lo sentimos la fotografia no ha sido guardada");
+                }
+                conexionBD.close();
+            }catch(Exception e){
+                respuesta.setMensaje(e.getMessage());
+            }
         }else{
             respuesta.setMensaje(Constantes.MSJ_ERROR_BD);
         }

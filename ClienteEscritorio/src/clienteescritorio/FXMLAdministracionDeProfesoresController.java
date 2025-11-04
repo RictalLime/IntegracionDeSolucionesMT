@@ -5,6 +5,7 @@
 package clienteescritorio;
 
 import clienteescritorio.dominio.ProfesorImp;
+import clienteescritorio.dto.Respuesta;
 import clienteescritorio.interfaz.INotificador;
 import clienteescritorio.pojo.Profesor;
 import clienteescritorio.utilidad.Utilidades;
@@ -107,7 +108,25 @@ public class FXMLAdministracionDeProfesoresController implements Initializable, 
 
     @FXML
     private void clicEliminar(ActionEvent event) {
-        
+        Profesor profesor = tvProfesores.getSelectionModel().getSelectedItem();
+        if(profesor != null){
+            boolean confirmarOperacion = Utilidades.mostrarAlertaConfirmacion("Eliminar profesor", "Estas seguro de elimanar el registro del profesor(a)"+profesor.getNombre()+" "+profesor.getApellidoPaterno());
+            if(confirmarOperacion){
+                eliminarProfesor(profesor.getIdProfesor());
+            }
+        }else{
+            Utilidades.mostrarAlertaSimple("Selecciona un Profesor", "Para eliminar la informacion de un profesor, debes seleccionarlo primero", Alert.AlertType.WARNING);
+        }
+    }
+    
+    private void eliminarProfesor(int idProfesor){
+        Respuesta respuesta = ProfesorImp.eliminar(idProfesor);
+        if(!respuesta.isError()){
+            Utilidades.mostrarAlertaSimple("Registro eliminado", "El registro del profesor(a) fue eliminado", Alert.AlertType.WARNING);
+            cargarInformacionProfesores();
+        }else{
+            Utilidades.mostrarAlertaSimple("Error al eliminar", respuesta.getMensaje(), Alert.AlertType.ERROR);
+        }
     }
     
     private void irFormulario(Profesor profesor){

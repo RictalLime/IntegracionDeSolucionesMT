@@ -25,6 +25,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="eliminar" parameterType="int">
         DELETE FROM profesor WHERE idProfesor = #{idProfesor}
     </delete>
-
+    
+    <update id="guardar-foto" parameterType="pojo.Profesor">
+        UPDATE profesor SET foto =#{foto}
+        WHERE idProfesor =#{idProfesor}
+    </update>
+    
+    <select id="obtener-foto" parameterType="int" resultType="pojo.Profesor">
+        SELECT idProfesor, to_base64(foto), foto as fotoBase64
+        FROM profesor WHERE idProfesor = #{idProfesor}
+    </select>
 </mapper>
 

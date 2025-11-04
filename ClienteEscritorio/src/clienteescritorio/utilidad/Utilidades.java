@@ -8,7 +8,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Optional;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 /**
  *
@@ -35,4 +37,12 @@ public class Utilidades {
         alerta.showAndWait();
     }
     
+    public static boolean mostrarAlertaConfirmacion(String titulo, String contenido){
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle(titulo);
+        alerta.setContentText(contenido);
+        alerta.setHeaderText(null);
+        Optional <ButtonType> btnSeleccion = alerta.showAndWait();
+        return (btnSeleccion.get() == ButtonType.OK);
+    }
 }
