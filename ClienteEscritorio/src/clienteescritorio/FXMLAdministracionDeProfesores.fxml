@@ -10,9 +10,9 @@
    <children>
       <Pane prefHeight="49.0" prefWidth="629.0" style="-fx-background-color: BLUE;" />
       <TextField fx:id="tfBusqueda" layoutX="16.0" layoutY="90.0" prefHeight="25.0" prefWidth="243.0" promptText="Busqueda" />
-      <Button layoutX="302.0" layoutY="90.0" mnemonicParsing="false" onAction="#clicNuevo" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: GREEN;" text="Nuevo" textFill="#fcfcfc" />
-      <Button layoutX="412.0" layoutY="90.0" mnemonicParsing="false" onAction="#clicEditar" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: ORANGE;" text="Editar" textFill="WHITE" />
-      <Button layoutX="517.0" layoutY="90.0" mnemonicParsing="false" onAction="#clicEliminar" prefHeight="25.0" prefWidth="74.0" style="-fx-background-color: RED;" text="Eliminar" textFill="WHITE" />
+      <Button layoutX="341.0" layoutY="90.0" mnemonicParsing="false" onAction="#clicNuevo" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: GREEN;" text="Nuevo" textFill="#fcfcfc" />
+      <Button layoutX="443.0" layoutY="90.0" mnemonicParsing="false" onAction="#clicEditar" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: ORANGE;" text="Editar" textFill="WHITE" />
+      <Button layoutX="541.0" layoutY="90.0" mnemonicParsing="false" onAction="#clicEliminar" prefHeight="25.0" prefWidth="74.0" style="-fx-background-color: RED;" text="Eliminar" textFill="WHITE" />
       <TableView fx:id="tvProfesores" layoutX="12.0" layoutY="138.0" prefHeight="298.0" prefWidth="604.0">
         <columns>
           <TableColumn fx:id="colNoPersonal" prefWidth="49.0" text="No. Personal" />
@@ -24,5 +24,6 @@
             <TableColumn fx:id="colRol" prefWidth="57.0" text="Rol" />
         </columns>
       </TableView>
+      <Button layoutX="278.0" layoutY="90.0" mnemonicParsing="false" onAction="#clicFoto" prefHeight="25.0" prefWidth="49.0" text="Foto" />
    </children>
 </AnchorPane>

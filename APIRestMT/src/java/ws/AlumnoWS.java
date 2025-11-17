@@ -37,4 +37,24 @@ public class AlumnoWS {
         }
         throw new BadRequestException();
     }
+    
+    @Path("obtener-por-id/{idAlumno}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Alumno> obtenerIdAlumno(@PathParam("idAlumno") Integer idAlumno){
+        if(idAlumno != null && idAlumno > 0){
+            return AlumnoImp.obtenerAlumnosPorId(idAlumno);
+        }
+        throw new BadRequestException();
+    }
+    
+    @Path("obtener-por-facultad/{idFacultad}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Alumno> obtenerAlumnoFacultad(@PathParam("idFacultad") Integer idFacultad){
+        if(idFacultad != null && idFacultad > 0){
+            return AlumnoImp.obtenerAlumnosPorFacultad(idFacultad);
+        }
+        throw new BadRequestException();
+    }
 }

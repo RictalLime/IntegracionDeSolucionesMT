@@ -82,4 +82,14 @@ public class ProfesorWS {
         }
         throw new BadRequestException();
     }
+    
+    @Path("obtener-foto/{idProfesor}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Profesor obtenerFoto(@PathParam("idProfesor")Integer idProfesor){
+        if(idProfesor != null && idProfesor > 0){
+            return ProfesorImp.obtenerFoto(idProfesor);
+        }
+        throw new BadRequestException();
+    }
 }

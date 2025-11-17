@@ -137,4 +137,18 @@ public class ProfesorImp {
         }
         return respuesta;
     }
+    
+    public static Profesor obtenerFoto(int idProfesor){
+        Profesor profesor = null;
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        if(conexionBD != null){
+            try{
+                profesor = conexionBD.selectOne("profesor.obtener-foto", idProfesor);
+                conexionBD.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return profesor;
+    }
 }

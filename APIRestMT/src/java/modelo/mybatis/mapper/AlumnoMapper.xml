@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="obtener-todos" resultType="pojo.Alumno">
         SELECT idAlumno, nombre, apellidoPaterno, apellidoMaterno, matricula,
-        correo, fechaNacimiento, a.idCarrera, c.carrera, c.idFacultad, f.facultad, f.facultad
+        correo, fechaNacimiento, a.idCarrera, c.carrera, c.idFacultad, f.facultad
         FROM alumno a
         INNER JOIN carrera c ON c.idCarrera = a.idCarrera
         INNER JOIN facultad f ON f.idFacultad = c.idFacultad
@@ -17,6 +17,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT idAlumno, nombre, apellidoPaterno, apellidoMaterno, matricula, correo, fechaNacimiento
         FROM alumno
         WHERE idCarrera = #{idCarrera}
+    </select>
+    
+    <select id="obtener-por-id" resultType="pojo.Alumno" parameterType="int">
+        SELECT idAlumno, idCarrera, nombre, apellidoPaterno, apellidoMaterno, matricula, correo, fechaNacimiento
+        FROM alumno
+        WHERE idAlumno = #{idAlumno}
+    </select>
+    
+    <select id="obtener-por-facultad" resultType="pojo.Alumno" parameterType="int">
+        SELECT idAlumno, nombre, apellidoPaterno, apellidoMaterno, matricula, correo, fechaNacimiento, a.idCarrera, c.carrera, c.idFacultad, f.facultad
+        FROM alumno a
+        INNER JOIN carrera c ON c.idCarrera = a.idCarrera
+        INNER JOIN facultad f ON f.idFacultad = c.idFacultad
+        WHERE f.idFacultad = #{idFacultad}
     </select>
     
 </mapper>

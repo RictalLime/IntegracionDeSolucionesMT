@@ -42,4 +42,32 @@ public class AlumnoImp {
         }
         return alumnos;
     }
+    
+    public static List<Alumno> obtenerAlumnosPorId(int idAlumno){
+        List<Alumno> alumnos = null;
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        if(conexionBD != null){
+            try{
+                alumnos = conexionBD.selectList("alumno.obtener-por-id", idAlumno);
+                conexionBD.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return alumnos;
+    }
+    
+    public static List<Alumno> obtenerAlumnosPorFacultad(int idFacultad){
+        List<Alumno> alumnos = null;
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        if(conexionBD != null){
+            try{
+                alumnos = conexionBD.selectList("alumno.obtener-por-facultad", idFacultad);
+                conexionBD.close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return alumnos;
+    }
 }

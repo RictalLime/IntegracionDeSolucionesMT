@@ -20,6 +20,8 @@ public class Profesor {
     private String fechaContratacion;
     private int  idRol;
     private String rol;
+    private byte[] foto;
+    private String fotoBase64;
 
     public Profesor(Integer idProfesor, String nombre, String apellidoPaterno, String apellidoMaterno, String noPersonal, String password, String fechaNacimiento, String fechaContratacion, int idRol, String rol) {
         this.idProfesor = idProfesor;
@@ -115,6 +117,22 @@ public class Profesor {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public String getFotoBase64() {
+        return fotoBase64;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
+    }
+
+    public void setFotoBase64(String fotoBase64) {
+        this.fotoBase64 = fotoBase64;
     }
     
 }

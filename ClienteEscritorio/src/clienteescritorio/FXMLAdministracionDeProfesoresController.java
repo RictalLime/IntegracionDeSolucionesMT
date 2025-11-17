@@ -105,6 +105,16 @@ public class FXMLAdministracionDeProfesoresController implements Initializable, 
             Utilidades.mostrarAlertaSimple("Selecciona un Profesor", "Para editar la informacion de un profesor, debes seleccionarlo primero", Alert.AlertType.WARNING);
         }
     }
+    
+    @FXML
+    private void clicFoto(ActionEvent event){
+        Profesor profesor = tvProfesores.getSelectionModel().getSelectedItem();
+        if(profesor != null){
+            irSeleccionFoto(profesor);
+        }else{
+            Utilidades.mostrarAlertaSimple("Selecciona un Profesor", "Para editar la informacion de un profesor, debes seleccionarlo primero", Alert.AlertType.WARNING);
+        }
+    }
 
     @FXML
     private void clicEliminar(ActionEvent event) {
@@ -140,6 +150,24 @@ public class FXMLAdministracionDeProfesoresController implements Initializable, 
             Stage escenario = new Stage();
             escenario.setScene(escena);
             escenario.setTitle("Formulario de Profesores");
+            escenario.initModality(Modality.APPLICATION_MODAL);
+            escenario.showAndWait();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLAdministracionDeProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void irSeleccionFoto(Profesor profesor){
+        
+        try {
+            FXMLLoader cargar = new FXMLLoader(getClass().getResource("FXMLFotoProfesor.fxml"));
+            Parent vista = cargar.load();
+            FXMLFotoProfesorController controlador = cargar.getController();
+            controlador.inicializarValores(profesor.getIdProfesor());
+            Scene escena = new Scene(vista);
+            Stage escenario = new Stage();
+            escenario.setScene(escena);
+            escenario.setTitle("Seleccion de foto");
             escenario.initModality(Modality.APPLICATION_MODAL);
             escenario.showAndWait();
         } catch (IOException ex) {
