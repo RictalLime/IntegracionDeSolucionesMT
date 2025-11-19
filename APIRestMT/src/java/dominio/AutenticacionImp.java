@@ -5,10 +5,12 @@
 package dominio;
 
 import dto.RSAutenticacionAdmin;
+import dto.RSAutenticacionAlumno;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import modelo.mybatis.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
+import pojo.Alumno;
 import pojo.Profesor;
 
 /**
@@ -46,6 +48,33 @@ public class AutenticacionImp {
         }else{
             // Flujo alterno 1 Sin conecion a BD
             respuesta.setError(true);
+            respuesta.setMensaje("Lo sentimos por el momento no hay conexion a los datos...");
+        }
+        return respuesta;
+    }
+    
+    public static RSAutenticacionAlumno autenticacionAlumno(String matricula, String password){
+        RSAutenticacionAlumno respuesta = new RSAutenticacionAlumno();
+        respuesta.setError(true);
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        if(conexionBD != null){
+            try{
+                HashMap<String,String> parametros = new LinkedHashMap();
+                parametros.put("matricula", matricula);
+                parametros.put("password", password);
+                Alumno alumno = conexionBD.selectOne("autenticacion.alumno", parametros);
+                if(alumno != null){
+                    respuesta.setError(false);
+                    respuesta.setMensaje("Credenciales correctas para el alumno "+alumno.getNombre());
+                    respuesta.setAlumno(alumno);
+                }else{
+                    respuesta.setMensaje("Matricula y/o password incorrecto, favor de verificarlo");
+                }
+            }catch (Exception e){
+                respuesta.setMensaje(e.getMessage());
+            }
+            conexionBD.close();
+        }else{
             respuesta.setMensaje("Lo sentimos por el momento no hay conexion a los datos...");
         }
         return respuesta;
