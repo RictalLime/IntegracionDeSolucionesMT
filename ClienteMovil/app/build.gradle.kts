@@ -34,7 +34,7 @@ android {
         jvmTarget = "11"
     }
     viewBinding {
-        enabled = true
+        enable = true
     }
 }
 
@@ -48,4 +48,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation("com.koushikdutta.ion:ion:2.+")
+    implementation("com.google.code.gson:gson:2.13.2") //2.13.2
 }

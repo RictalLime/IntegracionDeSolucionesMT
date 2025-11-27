@@ -5,6 +5,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import uv.tc.controlescolarmt.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        binding.root.
+
+        binding.tvSaludo.text = "Bienvenido Santiago"
     }
 }
