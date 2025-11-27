@@ -5,9 +5,11 @@
 package ws;
 
 import dominio.AlumnoImp;
+import dto.Respuesta;
 import java.util.List;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -54,6 +56,26 @@ public class AlumnoWS {
     public List<Alumno> obtenerAlumnoFacultad(@PathParam("idFacultad") Integer idFacultad){
         if(idFacultad != null && idFacultad > 0){
             return AlumnoImp.obtenerAlumnosPorFacultad(idFacultad);
+        }
+        throw new BadRequestException();
+    }
+    
+    @Path("subir-foto/{idAlumno}")
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    public Respuesta subirFoto(@PathParam("idAlumno") Integer idAlumno, byte[] foto){
+        if(idAlumno != null && idAlumno > 0 && foto.length > 0){
+            return AlumnoImp.guardarFoto(idAlumno, foto);
+        }
+        throw new BadRequestException();
+    }
+    
+    @Path("obtener-foto/{idAlumno}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Alumno obtenerFoto(@PathParam("idAlumno")Integer idAlumno){
+        if(idAlumno != null && idAlumno > 0){
+            return AlumnoImp.obtenerFoto(idAlumno);
         }
         throw new BadRequestException();
     }

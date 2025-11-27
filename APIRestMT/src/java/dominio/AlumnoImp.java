@@ -4,6 +4,8 @@
  */
 package dominio;
 
+import Utilidades.Constantes;
+import dto.Respuesta;
 import java.util.List;
 import modelo.mybatis.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
@@ -69,5 +71,46 @@ public class AlumnoImp {
             }
         }
         return alumnos;
+    }
+    
+    public static Respuesta guardarFoto(int idAlumno, byte[] foto){
+        Respuesta respuesta = new Respuesta();
+        respuesta.setError(true);
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        if(conexionBD != null){
+            try{
+                Alumno alumno = new Alumno();
+                alumno.setIdAlumno(idAlumno);
+                alumno.setFoto(foto);
+                int filasAfectadas = conexionBD.update("alumno.guardar-foto", alumno);
+                conexionBD.commit();
+                if(filasAfectadas > 0){
+                    respuesta.setError(false);
+                    respuesta.setMensaje("La fotografia del alumno(a) ha sido agregada");
+                }else{
+                    respuesta.setMensaje("Lo sentimos la fotografia no ha sido guardada");
+                }
+                conexionBD.close();
+            }catch(Exception e){
+                respuesta.setMensaje(e.getMessage());
+            }
+        }else{
+            respuesta.setMensaje(Constantes.MSJ_ERROR_BD);
+        }
+        return respuesta;
+    }
+    
+    public static Alumno obtenerFoto(int idAlumno){
+        Alumno alumno = null;
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        if(conexionBD != null){
+            try{
+                alumno = conexionBD.selectOne("alumno.obtener-foto", idAlumno);
+                conexionBD.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return alumno;
     }
 }
