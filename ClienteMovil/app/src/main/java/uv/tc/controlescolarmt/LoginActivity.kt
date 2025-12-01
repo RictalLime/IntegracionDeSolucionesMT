@@ -73,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
         try{
             val gson = Gson()
             val respuestaLogin = gson.fromJson(json, RSAutenticacionAlumno::class.java)
-            if(respuestaLogin.error){
+            if(!respuestaLogin.error){
                 Toast.makeText(this@LoginActivity, "Bienvenido(a) ${respuestaLogin.alumno!!.nombre} a tu app de alumnos",Toast.LENGTH_LONG).show()
                 irPantallaPrincipal()
             }else{
