@@ -1,17 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/iv_foto_perfil"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="120dp"
+        android:layout_height="120dp"/>
+
+
+    <ImageView
+        android:id="@+id/iv_seleccion_foto"
+        android:layout_below="@+id/iv_foto_perfil"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_width="50dp"
+        android:src="@drawable/ic_action_foto"
+        android:layout_height="40dp"/>
+
     <TextView
-        android:id="@+id/tvSaludo"
+        android:id="@+id/tv_titulo_matricula"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
-</LinearLayout>
+        android:text="nombre"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/iv_seleccion_foto"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_titulo_nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="matricula"
+        android:textSize="14sp"
+        android:layout_below="@id/tv_titulo_matricula"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="30dp"
+        />
+
+
+</RelativeLayout>

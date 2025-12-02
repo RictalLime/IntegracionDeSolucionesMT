@@ -8,12 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.koushikdutta.ion.Ion
 import uv.tc.controlescolarmt.databinding.ActivityLoginBinding
 import uv.tc.controlescolarmt.dto.RSAutenticacionAlumno
 import uv.tc.controlescolarmt.util.Constantes
-import android.util.Log
-
 
 class LoginActivity : AppCompatActivity() {
 
@@ -22,70 +21,108 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
 
         binding.btnIngresar.setOnClickListener {
             verificarCredenciales()
         }
     }
 
-    fun verificarCredenciales(){
-        if(sonCamposValidos()) {
-            consumirAPI(matricula = binding.etMatricula.text.toString(), password = binding.etPassword.text.toString())
+    private fun verificarCredenciales() {
+        if (sonCamposValidos()) {
+            val matricula = binding.etMatricula.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
+            consumirAPI(matricula, password)
         }
     }
 
-    fun sonCamposValidos(): Boolean{
+    private fun sonCamposValidos(): Boolean {
         var valido = true
-        if(binding.etMatricula.text.isEmpty()){
-            binding.etMatricula.setError("Matricula abligatoria")
-            valido = false
 
-        }
-        if(binding.etPassword.text.isNullOrBlank()){
-            binding.etPassword.error = "Contraseña abligatoria"
+        if (binding.etMatricula.text.isNullOrBlank()) {
+            binding.etMatricula.error = "Matrícula obligatoria"
             valido = false
+        } else {
+            binding.etMatricula.error = null // Limpiar error si es válido
         }
+
+        if (binding.etPassword.text.isNullOrBlank()) {
+            binding.etPassword.error = "Contraseña obligatoria"
+            valido = false
+        } else {
+            binding.etPassword.error = null
+        }
+
         return valido
-        }
-    fun consumirAPI(matricula: String, password: String){
-        //Configuracion iniciar: solo primer vez
-        Ion.getDefault(this@LoginActivity).conscryptMiddleware.enable(false)
-        //Consumo WS
-        Ion.with(this@LoginActivity).load("POST", "${Constantes().URL_API}autenticacion/alumno")
-            .setHeader("Content-Type", "Content-Type: application/x-www-form-urlencoded")
+    }
+
+    private fun consumirAPI(matricula: String, password: String) {
+        // Evita múltiples llamadas al hacer clic rápido
+        binding.btnIngresar.isEnabled = false
+
+        Ion.getDefault(this).conscryptMiddleware.enable(false)
+
+        Ion.with(this)
+            .load("POST", "${Constantes().URL_API}autenticacion/alumno")
+            .setHeader("Content-Type", "application/x-www-form-urlencoded")
             .setBodyParameter("matricula", matricula)
             .setBodyParameter("password", password)
-            .asString().setCallback { e, result ->
-                if (e == null) {
-                    // 200 OK
+            .asString()
+            .setCallback { e: Exception?, result: String? ->
+                // Volver a habilitar el botón
+                binding.btnIngresar.isEnabled = true
+
+                if (e == null && result != null) {
                     serializarRespuesta(result)
-                }else{
-                    //ERROR
-                    Toast.makeText(this@LoginActivity, "Error: ${e.message}",Toast.LENGTH_LONG).show()
+                } else {
+                    val errorMsg = e?.message ?: "Error desconocido en la conexión"
+                    Toast.makeText(
+                        this,
+                        "Error: $errorMsg",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
-
     }
-    fun serializarRespuesta(json : String){
-        Log.e("WS", json)
-        try{
+
+    private fun serializarRespuesta(json: String) {
+        try {
             val gson = Gson()
             val respuestaLogin = gson.fromJson(json, RSAutenticacionAlumno::class.java)
-            if(!respuestaLogin.error){
-                Toast.makeText(this@LoginActivity, "Bienvenido(a) ${respuestaLogin.alumno!!.nombre} a tu app de alumnos",Toast.LENGTH_LONG).show()
-                irPantallaPrincipal()
-            }else{
-                Toast.makeText(this@LoginActivity, respuestaLogin.mensaje,Toast.LENGTH_LONG).show()
+
+            if (!respuestaLogin.error) {
+                val nombre = respuestaLogin.alumno?.nombre ?: "Usuario"
+                Toast.makeText(
+                    this,
+                    "Bienvenido $nombre a tu app",
+                    Toast.LENGTH_LONG
+                ).show()
+
+                irPantallaPrincipal(json)
+            } else {
+                val mensaje = respuestaLogin.mensaje ?: "Error en la autenticación"
+                Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show()
             }
-        }catch (e : Exception){
-            Toast.makeText(this@LoginActivity, "Losentimos hubo un error en la solicitud.",Toast.LENGTH_LONG).show()
+        } catch (ex: JsonSyntaxException) {
+            // Más específico: error de formato JSON
+            Toast.makeText(
+                this,
+                "Respuesta inválida del servidor",
+                Toast.LENGTH_LONG
+            ).show()
+        } catch (ex: Exception) {
+            Toast.makeText(
+                this,
+                "Error al procesar la respuesta",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
-    fun irPantallaPrincipal(){
-        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+
+    private fun irPantallaPrincipal(json : String) {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("alumno", json)
         startActivity(intent)
         finish()
     }
-    }
+}
